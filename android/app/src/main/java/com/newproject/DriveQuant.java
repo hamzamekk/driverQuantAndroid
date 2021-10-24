@@ -35,6 +35,10 @@ private  static ReactApplicationContext reactContext;
         DriveKit.INSTANCE.setUserId(email);
     }
 
+    @ReactMethod
+    public void activateAutoStart(boolean state){
+        DriveKitTripAnalysis.INSTANCE.activateAutoStart(state);
+    }
 
     @ReactMethod
     public void startTrip()  {

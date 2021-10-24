@@ -39,7 +39,6 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-
     const status = await PlayServices.checkPlayServicesStatus();
 
     switch (status) {
@@ -92,6 +91,30 @@ class App extends React.Component {
         {/* </View> */}
 
         <ScrollView>
+          <TouchableOpacity
+            style={{
+              height: 40,
+              borderWidth: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+              backgroundColor: 'green',
+            }}
+            onPress={() => DriveQuant.activateAutoStart(true)}>
+            <Text>activateAutoStart</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+            style={{
+              height: 40,
+              borderWidth: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+              backgroundColor: 'green',
+            }}
+            onPress={() => DriveQuant.activateAutoStart(true)}>
+            <Text>activateAutoStart</Text>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={{
               height: 40,
