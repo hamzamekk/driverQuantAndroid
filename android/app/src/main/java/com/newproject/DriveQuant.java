@@ -1,5 +1,11 @@
 package com.newproject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -51,6 +57,20 @@ private  static ReactApplicationContext reactContext;
         DriveKitTripAnalysis.INSTANCE.stopTrip();
     }
 
+    @ReactMethod
+    public void checkBatteryOptimization(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            String packageName = getReactApplicationContext().getPackageName();
+            PowerManager pm = (PowerManager) getReactApplicationContext().getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)){
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                reactContext.startActivity(intent);
+            }
+        }
+    }
 
     @ReactMethod
     public void isConfigured(Callback callBack) {

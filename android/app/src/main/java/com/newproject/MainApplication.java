@@ -2,7 +2,12 @@ package com.newproject;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -87,6 +92,7 @@ public class MainApplication extends Application implements ReactApplication {
       });
       registerReceiver();
   }
+
 
     public TripNotification createForegroundNotification(){
         TripNotification tripNotification = new TripNotification(

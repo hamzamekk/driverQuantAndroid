@@ -59,6 +59,7 @@ class App extends React.Component {
       PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
       PERMISSIONS.ANDROID.ACTIVITY_RECOGNITION,
     ]).then((statuses) => {
+      DriveQuant.checkBatteryOptimization();
       // console.log(
       //   'ACCESS_BACKGROUND_LOCATION',
       //   statuses[PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION],
@@ -102,6 +103,18 @@ class App extends React.Component {
             }}
             onPress={() => DriveQuant.activateAutoStart(true)}>
             <Text>activateAutoStart</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: 40,
+              borderWidth: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+              backgroundColor: 'green',
+            }}
+            onPress={() => DriveQuant.activateAutoStart(false)}>
+            <Text>activateAutoStart false</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity
             style={{
