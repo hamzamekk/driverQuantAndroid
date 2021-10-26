@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.drivequant.drivekit.core.DriveKit;
+import com.drivequant.drivekit.core.DriveKitLog;
 import com.drivequant.drivekit.tripanalysis.DriveKitTripAnalysis;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -30,6 +31,17 @@ private  static ReactApplicationContext reactContext;
     public void init()  {
         DriveKit.INSTANCE.initialize(getCurrentActivity().getApplication());
         DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO");
+        DriveKit.INSTANCE.enableLogging("/DriveKit");
+        DriveKitTripAnalysis.INSTANCE.setStopTimeOut(5 * 60);
+
+        Uri uri = DriveKitLog.INSTANCE.getLogUriFile(reactContext);
+
+        boolean isConfigured = DriveKit.INSTANCE.isConfigured();
+
+
+        Toast.makeText(reactContext, "configureDriveKit: "+isConfigured, Toast.LENGTH_LONG).show();
+        Toast.makeText(reactContext, "configureDriveKit uri: "+uri, Toast.LENGTH_LONG).show();
+
     }
 //
 //         DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO");
@@ -44,6 +56,7 @@ private  static ReactApplicationContext reactContext;
     @ReactMethod
     public void activateAutoStart(boolean state){
         DriveKitTripAnalysis.INSTANCE.activateAutoStart(state);
+        DriveKitTripAnalysis.INSTANCE.setMonitorPotentialTripStart(state);
     }
 
     @ReactMethod

@@ -187,6 +187,8 @@ dependencies {
 
     implementation 'com.drivequant.drivekit:drivekit-core:1.13.0'
     implementation 'com.drivequant.drivekit:drivekit-trip-analysis:1.13.0'
+
+
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
@@ -201,6 +203,8 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
+
+
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

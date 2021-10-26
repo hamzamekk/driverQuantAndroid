@@ -67,7 +67,7 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
       DriveKit.INSTANCE.initialize(this);
-      //DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO");
+      DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO");
       DriveKitTripAnalysis.INSTANCE.initialize(createForegroundNotification(), new TripListener() {
           @Override
           public void potentialTripStart(@NonNull StartMode startMode) {
