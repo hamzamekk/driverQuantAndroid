@@ -92,54 +92,7 @@ class App extends React.Component {
         {/* </View> */}
 
         <ScrollView>
-          <TouchableOpacity
-            style={{
-              height: 40,
-              borderWidth: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-              backgroundColor: 'green',
-            }}
-            onPress={() => DriveQuant.activateAutoStart(true)}>
-            <Text>activateAutoStart</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              height: 40,
-              borderWidth: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-              backgroundColor: 'green',
-            }}
-            onPress={() => DriveQuant.activateAutoStart(false)}>
-            <Text>activateAutoStart false</Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={{
-              height: 40,
-              borderWidth: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-              backgroundColor: 'green',
-            }}
-            onPress={() => DriveQuant.activateAutoStart(true)}>
-            <Text>activateAutoStart</Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity
-            style={{
-              height: 40,
-              borderWidth: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-              backgroundColor: 'green',
-            }}
-            onPress={() => DriveQuant.init()}>
-            <Text>initialize</Text>
-          </TouchableOpacity>
+         
           <TouchableOpacity
             style={{
               height: 40,
@@ -150,7 +103,7 @@ class App extends React.Component {
               backgroundColor: 'green',
             }}
             onPress={() => {
-              DriveQuant.receiveEmail('juanisco7@gmail.com');
+              DriveQuant.receiveEmail(this.state.email);
             }}>
             <Text>setEmail</Text>
           </TouchableOpacity>

@@ -60,9 +60,7 @@ private  static ReactApplicationContext reactContext;
     }
 
     @ReactMethod
-    public void startTrip()  {
-        DriveKitTripAnalysis.INSTANCE.startTrip();
-    }
+    public void startTrip()  { DriveKitTripAnalysis.INSTANCE.startTrip(); }
 
 
     @ReactMethod

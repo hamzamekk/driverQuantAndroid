@@ -23,6 +23,7 @@ import com.drivequant.drivekit.tripanalysis.entity.TripNotification;
 import com.drivequant.drivekit.tripanalysis.entity.TripPoint;
 import com.drivequant.drivekit.tripanalysis.service.recorder.StartMode;
 import com.drivequant.drivekit.tripanalysis.service.recorder.State;
+import com.facebook.react.BuildConfig;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
