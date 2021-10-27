@@ -1,6 +1,8 @@
 package com.newproject;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,11 +10,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.drivequant.drivekit.core.DriveKit;
+import com.drivequant.drivekit.core.DriveKitSharedPreferencesUtils;
 import com.drivequant.drivekit.tripanalysis.DriveKitTripAnalysis;
 import com.drivequant.drivekit.tripanalysis.TripListener;
 import com.drivequant.drivekit.tripanalysis.entity.TripNotification;
@@ -66,33 +70,59 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-      DriveKit.INSTANCE.initialize(this);
-      DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO");
-      DriveKitTripAnalysis.INSTANCE.initialize(createForegroundNotification(), new TripListener() {
-          @Override
-          public void potentialTripStart(@NonNull StartMode startMode) {
-
-          }
-
-          @Override
-          public void tripStarted(@NotNull StartMode startMode) {
-          }
-          @Override
-          public void tripPoint(@NotNull TripPoint tripPoint) {
-          }
-          @Override
-          public void tripSavedForRepost() {
-          }
-          @Override
-          public void beaconDetected() {
-          }
-          @Override
-          public void sdkStateChanged(State state) {
-          }
-      });
+      createNotificationChannel();
+      configureDriveKit();
       registerReceiver();
   }
 
+
+    private void configureDriveKit(){
+        DriveKit.INSTANCE.initialize(this);
+        DriveKitTripAnalysis.INSTANCE.initialize(createForegroundNotification(), new TripListener() {
+            @Override
+            public void potentialTripStart(@NonNull StartMode startMode) {
+
+            }
+
+            @Override
+                    public void tripStarted(@NotNull StartMode startMode) {
+                        Toast.makeText(null, "tripStarted in mode: "+startMode, Toast.LENGTH_LONG).show();
+                        //boolean isTripRunning = DriveKitTripAnalysis.INSTANCE.isTripRunning();
+                        //makeText(null, "isTripRunning: "+isTripRunning, Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void tripPoint(@NotNull TripPoint tripPoint) {
+                    }
+                    @Override
+                    public void tripSavedForRepost() {
+                        Toast.makeText(null, "tripSavedForRepost", Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void beaconDetected() {
+                    }
+                    @Override
+                    public void sdkStateChanged(State state) {
+                        Toast.makeText(null, "new trip state: "+state, Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+
+        DriveKit.INSTANCE.setApiKey("NUpEDEzgmqfXu3KRaYvNA9xO"); //getString(R.string.drivekit_api_key)
+
+        initFirstLaunch();
+    }
+
+    private  void initFirstLaunch(){
+      boolean firstLaunch = DriveKitSharedPreferencesUtils.INSTANCE.getBoolean("dk_demo_firstLaunch", true);
+        if (firstLaunch) {
+            DriveKitTripAnalysis.INSTANCE.activateAutoStart(true);
+            DriveKitTripAnalysis.INSTANCE.setMonitorPotentialTripStart(true);
+            DriveKit.INSTANCE.enableLogging("/DriveKit");
+            DriveKitTripAnalysis.INSTANCE.setStopTimeOut(5 * 60);
+            DriveKitSharedPreferencesUtils.INSTANCE.setBoolean("dk_demo_firstLaunch", false);
+        }
+    }
 
     public TripNotification createForegroundNotification(){
         TripNotification tripNotification = new TripNotification(
@@ -106,6 +136,20 @@ public class MainApplication extends Application implements ReactApplication {
         TripReceiver receiver = new TripReceiver();
         IntentFilter filter = new IntentFilter("com.drivequant.sdk.TRIP_ANALYSED");
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notif_channel", name, importance);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
